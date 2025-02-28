@@ -1,0 +1,62 @@
+---
+title: "Predicting the Public's Aversion to AI"
+author: 'Alyssa Padbidri'
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# “Is it feasible to identify AI-averse individuals, without directly asking about their attitudes to this technology?”
+
+## Introduction 
+This report investigates whether AI aversion can be inferred from indirect variables, without explicitly measuring attitudes toward the technology. It outlines the approach used to develop the machine learning (ML) model, explains key methodological decisions, discusses notable limitations, and assesses the feasibility of this approach.
+
+## Model Design 
+
+### Data Preparation
+The dataset was first loaded into the program, pre-processed, and cleaned. To facilitate data handling, all variables were converted to numeric values where necessary.
+
+A significant proportion of data was missing, with approximately 50,000 missing values. Columns with more than 90% missing data were removed to maintain data integrity. However, rows were retained to avoid excessive data loss.
+
+### Handling Missing Data
+K-Nearest Neighbors (KNN) imputation was initially considered, but the high level of missingness made it unsuitable, as averaging across neighboring data points was unreliable. Instead, an assessment was conducted to determine whether the missingness was random. If missing data were missing completely at random (MCAR), median imputation would be a viable approach.
+
+To test this, the MCAR statistical test was applied, where a p-value greater than 0.05 indicates that the missing data can be considered random. The test returned a p-value of 0.8, supporting the decision to impute missing values using the median.
+
+### Feature Selection & Model Choice
+A correlation matrix was generated to assess relationships between variables. Only 66 out of 511 variables were significantly correlated, suggesting low collinearity. Given this, a decision tree model was chosen over linear regression, as it is better suited for datasets with weak linear relationships.
+
+### Constructing the Proxy for AI Aversion
+Since AI aversion was not explicitly measured in the dataset, a proxy binary variable was manually constructed. This involved two steps:
+
+A composite score for attitude toward technology was created, where higher scores indicate a more positive stance toward technology.
+AI aversion was then categorized based on the interquartile range: individuals in the lower two quartiles were classified as AI-averse (1), while those in the upper quartiles were classified as non-averse (0).
+
+## Model Training & Performance Evaluation
+The model predictors included [XXX] variables. The dataset was split into training (80%) and testing (20%) subsets. A decision tree model was then trained and evaluated using the test set.
+
+### Overall Model Accuracy
+The model achieved an accuracy of [XX]% on the test data, suggesting a strong predictive capability. Below is the confusion matrix, which provides insight into the model's classification performance:
+
+>>>> * INSERT CONFUSION MATRIX + LAYPERSON-FRIENDLY EXPLANATION * 
+
+From the matrix, it can be observed that [INSERT INTERPRETATION]. This suggests that the model is reasonably effective in identifying AI-averse individuals.
+
+### ROC Curve Analysis
+The ROC curve below illustrates the model’s ability to distinguish between AI-averse and non-averse individuals.
+
+>>>  * INSERT ROC GRAPH * 
+
+
+The area under the curve (AUC) of [XX] indicates [INSERT INTERPRETATION].
+
+### Cross-Validation Results
+Cross-validation was conducted to assess the model's generalizability beyond the training data. The results indicate that [INSERT FINDINGS], reinforcing the model's robustness.
+
+## Conclusion
+Based on the model’s performance, it appears feasible to identify AI-averse individuals without directly asking about their attitudes toward AI. However, [INSERT LIMITATIONS, e.g., potential biases, data constraints, or areas for future refinement].
+
